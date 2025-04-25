@@ -44,11 +44,8 @@ def initialize_dnabarcoder():
 
 def main():
     """Main application function."""
-    # Initialize components
     tt = initialize_taxotagger()
     dnabarcoder = initialize_dnabarcoder()
-    
-    # Create header
     create_header()
     
     # Input section

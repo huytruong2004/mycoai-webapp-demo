@@ -2,3 +2,4 @@
 data/*.pt
 data/*.lock
 /__pycache__
+*.pyc
