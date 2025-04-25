@@ -63,39 +63,35 @@ def create_directories():
 
 def find_file(dnabarcoder_path, filename, dataset):
     """Find a file in the dnabarcoder repository."""
-    # Search in the data directory
     source_dir = os.path.join(dnabarcoder_path, "data")
-    source_path = os.path.join(source_dir, filename)
     
-    if os.path.exists(source_path):
-        return source_path
+    # List of potential locations to check
+    search_paths = [
+        os.path.join(source_dir, filename)  # Direct in data directory
+    ]
     
-    # Search in UNITE directories for UNITE datasets
+    # Add UNITE-specific paths for UNITE datasets
     if dataset.startswith("UNITE"):
+        # Add UNITE directories
         unite_dirs = glob.glob(os.path.join(source_dir, "UNITE*"))
         for unite_dir in unite_dirs:
-            source_path = os.path.join(unite_dir, filename)
-            if os.path.exists(source_path):
-                return source_path
+            search_paths.append(os.path.join(unite_dir, filename))
+        
+        # Add cutoff directory for json files
+        if filename.endswith(".json"):
+            cutoffs_dir = os.path.join(source_dir, "UNITE_2024_cutoffs")
+            if os.path.exists(cutoffs_dir):
+                search_paths.append(os.path.join(cutoffs_dir, filename))
     
-    # Search in UNITE_2024_cutoffs for cutoff files
-    if filename.endswith(".json") and dataset.startswith("UNITE"):
-        cutoffs_dir = os.path.join(source_dir, "UNITE_2024_cutoffs")
-        if os.path.exists(cutoffs_dir):
-            source_path = os.path.join(cutoffs_dir, filename)
-            if os.path.exists(source_path):
-                return source_path
+    # Check all specific paths first
+    for path in search_paths:
+        if os.path.exists(path):
+            return path
     
-    # Search in any subdirectory
+    # As a last resort, search in any subdirectory
     for root, _, files in os.walk(source_dir):
         if filename in files:
             return os.path.join(root, filename)
-    
-    # Look for similar files as a fallback
-    similar_files = glob.glob(os.path.join(source_dir, f"*{filename}*"))
-    if similar_files:
-        print(f"Warning: Exact match for {filename} not found, but found similar files: "
-              f"{', '.join(os.path.basename(f) for f in similar_files)}")
     
     return None
 
@@ -105,9 +101,6 @@ def copy_dataset_files(dnabarcoder_path, dataset_name, files_info):
     files_copied = 0
     
     for file_type, filename in files_info.items():
-        if file_type == "alt_reference":
-            continue  # Handle alt_reference separately
-        
         source_path = find_file(dnabarcoder_path, filename, dataset_name)
         if source_path:
             target_path = os.path.join(target_dir, filename)
@@ -116,16 +109,6 @@ def copy_dataset_files(dnabarcoder_path, dataset_name, files_info):
             files_copied += 1
         else:
             print(f"Warning: {file_type} file {filename} not found for {dataset_name}")
-    
-    # Handle alternative reference file if specified
-    if "alt_reference" in files_info:
-        alt_filename = files_info["alt_reference"]
-        source_path = find_file(dnabarcoder_path, alt_filename, dataset_name)
-        if source_path:
-            target_path = os.path.join(target_dir, alt_filename)
-            print(f"Copying alternative reference {source_path} to {target_path}")
-            shutil.copy2(source_path, target_path)
-            files_copied += 1
     
     return files_copied
 

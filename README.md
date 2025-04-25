@@ -117,5 +117,3 @@ These methods will be implemented in future updates.
 The reference datasets provided in the `data` directory are for demo purposes only. To use the webapp in production, you should prepare the complete reference datasets:
 
 1. For TaxoTagger, build the vector database by following the instructions in the [TaxoTagger Doc](https://mycoai.github.io/taxotagger/latest/quickstart/#build-a-vector-database).
-2. For DNABarcoder:
-   - Run the setup script on a dnabarcoder repository that already contains these datasets
