@@ -1,0 +1,3 @@
+ID	Given label	Prediction	Full classification	Rank	Cut-off	Confidence	ReferenceID	BLAST score	BLAST sim	BLAST coverage
+KY106088|k__Fungi;p__Ascomycota;c__Saccharomycetes;o__Saccharomycetales;f__Saccharomycetaceae;g__Zygotorulaspora;s__Zygotorulaspora_mrakii|SH1312607.09FU			k__Fungi;p__Ascomycota;c__Eurotiomycetes;o__Eurotiales;f__Aspergillaceae;g__Aspergillus;s__Aspergillus_inuii		N/A	0.0	MH856954	0.5376411	0.9432299999999999	228.0
+KY106087|k__Fungi;p__Ascomycota;c__Saccharomycetes;o__Saccharomycetales;f__Saccharomycetaceae;g__Zygotorulaspora;s__Zygotorulaspora_mrakii|SH1312607.09FU			k__Fungi;p__Ascomycota;c__Eurotiomycetes;o__Eurotiales;f__Aspergillaceae;g__Aspergillus;s__Aspergillus_inuii		N/A	0.0	MH856954	0.5376411	0.9432299999999999	228.0

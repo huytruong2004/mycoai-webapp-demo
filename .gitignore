@@ -1,0 +1,4 @@
+.vscode
+data/*.pt
+data/*.lock
+/__pycache__
