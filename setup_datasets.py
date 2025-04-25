@@ -65,9 +65,8 @@ def find_file(dnabarcoder_path, filename, dataset):
     """Find a file in the dnabarcoder repository."""
     source_dir = os.path.join(dnabarcoder_path, "data")
     
-    # List of potential locations to check
     search_paths = [
-        os.path.join(source_dir, filename)  # Direct in data directory
+        os.path.join(source_dir, filename)
     ]
     
     # Add UNITE-specific paths for UNITE datasets
@@ -83,12 +82,10 @@ def find_file(dnabarcoder_path, filename, dataset):
             if os.path.exists(cutoffs_dir):
                 search_paths.append(os.path.join(cutoffs_dir, filename))
     
-    # Check all specific paths first
     for path in search_paths:
         if os.path.exists(path):
             return path
     
-    # As a last resort, search in any subdirectory
     for root, _, files in os.walk(source_dir):
         if filename in files:
             return os.path.join(root, filename)
@@ -116,15 +113,12 @@ def main():
     """Main function to execute the script."""
     args = parse_args()
     
-    # Check if dnabarcoder path exists
     if not os.path.exists(args.dnabarcoder_path):
         print(f"Error: The specified dnabarcoder path '{args.dnabarcoder_path}' does not exist.")
         sys.exit(1)
     
-    # Create directories
     create_directories()
     
-    # Copy files for each dataset
     total_files = 0
     results = {}
     
@@ -134,7 +128,6 @@ def main():
         total_files += files_copied
         results[dataset_name] = files_copied
     
-    # Report results
     print(f"\nTotal files copied: {total_files}")
     for dataset_name, files_copied in results.items():
         print(f"  {dataset_name}: {files_copied} files")

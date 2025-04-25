@@ -99,7 +99,6 @@ def run_dnabarcoder_analysis(fasta_content: str, dnabarcoder) -> pd.DataFrame:
         # Get classification method parameters
         classification_method = st.session_state.get("classification_method", "Local").lower()
         cutoff_value = st.session_state.get("custom_cutoff")
-        # Since confidence slider was removed, set confidence to None
         confidence_value = None
         
         # Run DNABarcoder classification
@@ -168,7 +167,6 @@ def process_taxotagger_result(results: Dict[str, Any]) -> None:
         )
         return
 
-    # Process results
     results_by_seq = process_taxotagger_results(results, seq_ids, st.session_state["top_n"])
     st.session_state["results_by_seq"] = results_by_seq
     st.session_state["result_type"] = "taxotagger"
@@ -225,12 +223,9 @@ def display_dnabarcoder_results() -> None:
         if 'cutoff' in prepared_df.attrs and prepared_df.attrs['cutoff'] is not None:
             cutoff = prepared_df.attrs['cutoff']
             classification_params.append(f"Similarity cutoff: {cutoff:.3f}")
-        # Confidence is no longer displayed since we removed the confidence threshold slider
     
     if classification_params:
         st.caption("Classification parameters: " + ", ".join(classification_params))
-        
-    # Place sequence selection dropdown at top level (outside of tabs) for better visibility
     filtered_df = prepared_df
     if has_multiple_sequences:
         selected_seq_id = create_sequence_selector(

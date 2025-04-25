@@ -39,7 +39,6 @@ def create_labeled_widget(label: str, widget_func: Callable, *args, **kwargs) ->
     with col1:
         st.write(label)
     with col2:
-        # Set label_visibility to collapsed by default if not specified
         if "label_visibility" not in kwargs:
             kwargs["label_visibility"] = "collapsed"
         return widget_func(*args, **kwargs)
@@ -76,7 +75,7 @@ def create_taxotagger_settings() -> None:
     st.session_state["top_n"] = create_labeled_widget(
         "Number of top matched results to display:",
         st.number_input,
-        "Top results",  # Adding a label for the number_input widget
+        "Top results",
         min_value=1,
         max_value=5,
         value=2,
@@ -124,7 +123,6 @@ def create_dnabarcoder_settings(dnabarcoder) -> None:
     """
     from constants import DEFAULT_DATASETS
     
-    # Try to get available datasets
     try:
         DNABARCODER_DATASETS = dnabarcoder.get_available_datasets()
         if not DNABARCODER_DATASETS:
@@ -146,7 +144,6 @@ def create_dnabarcoder_settings(dnabarcoder) -> None:
             format_func=lambda x: dataset_dict.get(x, x)
         )
         
-        # Display dataset information in an expander
         create_dataset_info_expander(dnabarcoder, st.session_state["reference_dataset"], dataset_dict)
     else:
         st.error("No DNABarcoder reference datasets found. Please run the setup_datasets.py script.")
@@ -234,7 +231,6 @@ def create_taxotagger_results_display(results_by_seq: Dict[str, List[Dict[str, A
     
     # Create a display table for results
     if not df.empty:
-        # Format the data for display
         for level in TAXONOMY_LEVELS:
             level_cap = level.capitalize()
             if level_cap in df.columns:
