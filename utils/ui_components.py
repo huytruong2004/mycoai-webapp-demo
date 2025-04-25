@@ -180,10 +180,12 @@ def create_dnabarcoder_settings(dnabarcoder) -> None:
                 st.session_state["custom_cutoff"] = cutoff_value
             else:
                 st.error(f"Similarity cutoff must be between {MIN_ALLOWED_CUTOFF} and {MAX_ALLOWED_CUTOFF}")
-                st.session_state["custom_cutoff"] = DEFAULT_CUTOFF
+                st.session_state["custom_cutoff"] = None
+                st.stop()
         except ValueError:
             st.error("Please enter a valid number for similarity cutoff")
-            st.session_state["custom_cutoff"] = DEFAULT_CUTOFF
+            st.session_state["custom_cutoff"] = None
+            st.stop()
     else:
         # For local method, use the predefined cutoffs from the dataset files
         st.session_state["custom_cutoff"] = None

@@ -5,6 +5,7 @@ import shutil
 import glob
 from typing import Dict, List, Optional, Any, Tuple, Union
 import pandas as pd
+from constants import MIN_ALLOWED_CUTOFF, MAX_ALLOWED_CUTOFF
 
 from .utils import (
     parse_fasta,
@@ -309,6 +310,12 @@ class DNABarcoderWrapper:
             DataFrame with classification results and result file paths in metadata
         """
         try:
+            # Validate cutoff if method is single
+            if method.lower() == "single" and cutoff is not None:
+                if not (MIN_ALLOWED_CUTOFF <= cutoff <= MAX_ALLOWED_CUTOFF):
+                    error_msg = f"Invalid cutoff value: {cutoff}. Must be between {MIN_ALLOWED_CUTOFF} and {MAX_ALLOWED_CUTOFF}."
+                    return pd.DataFrame({"Error": [error_msg]})
+            
             # First, search for best matches
             bestmatch_file = self.search(
                 fasta_content=fasta_content,
