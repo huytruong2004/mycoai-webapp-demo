@@ -1,5 +1,12 @@
 .vscode
 data/*.pt
 data/*.lock
-/__pycache__
-*.pyc
+# Python bytecode files
+__pycache__/
+*/__pycache__/
+*/*/__pycache__/
+**/__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
